@@ -42,20 +42,21 @@ if username != "admin" and password != "admin":
                 if user_quit == "y":
                     break
 else:
-    print("-----------------------------------------")
-    print("--- admin panel ---")
-    print("how can i help you?")
-    print("[1] show total ordered\n[2] most highest cost paid\n[3] show menu\n[4] quit")
-    user_input = int(input("Enter your choice: "))
-    print("-----------------------------------------")
-    match user_input:
-        case 1 :
-            print("[1] show all food total\n[2] show specific total")
-            admin_input = int(input("Enter your choice: "))
-            match admin_input:
-                case 1 :
-                    print(m.total_ordered_food(0))
-                case 2 :
-                    print(m.show_menu())
-                    food_total_input = int(input("Enter your food code : "))
-                    print(m.total_ordered_food(food_total_input))
+    while True:
+        print("-----------------------------------------")
+        print("--- admin panel ---")
+        print("how can i help you?")
+        print("[1] show total ordered\n[2] most highest cost paid\n[3] show menu\n[4] quit")
+        user_input = int(input("Enter your choice: "))
+        print("-----------------------------------------")
+        match user_input:
+            case 1 :
+                print("[1] show all food total\n[2] show specific total")
+                admin_input = int(input("Enter your choice: "))
+                match admin_input:
+                    case 1 :
+                        print(m.total_ordered_food(0))
+                    case 2 :
+                        print(m.show_menu())
+                        food_total_input = int(input("Enter your food code : "))
+                        print(m.total_ordered_food(food_total_input))

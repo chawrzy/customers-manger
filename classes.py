@@ -1,4 +1,5 @@
 import pandas as pd
+from scipy.stats import false_discovery_control
 from selenium.webdriver.support.expected_conditions import none_of
 
 res = "./csv/restaurant.csv"
@@ -29,10 +30,11 @@ class user_manger():
     def check_user(self, username, password):
         df = self.file()
         for info in df.itertuples():
-            if info.username != username and info.password != password:
-                self.create_user(username, password)
-                return False
-        return True
+            if info.username == username and info.password == password:
+                return True
+        self.create_user(username, password)
+        return False
+
 
     def user_update(self , username, password , food_code , food_count):
         df = self.file()
