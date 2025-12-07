@@ -1,0 +1,1 @@
+use admin as username and password to enter the admin panel and use admin features
