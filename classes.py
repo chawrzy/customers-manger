@@ -1,13 +1,18 @@
-
-
 import pandas as pd
+from scipy.stats import false_discovery_control
+from selenium.webdriver.support.expected_conditions import none_of
 
 res = "./csv/restaurant.csv"
-pri = r"C:\Users\hesam\Desktop\PY\pyprj1\csv\prices.csv"
+pri = "./csv/prices.csv"
 columns = [
     "username", "password", "Pizza", "Burger", "Pasta", "Sushi", "Kebab", "taco",
-    "Salad", "Steak", "Sandwich", "Fried Chicken", "qorme sabzi", "rice", "fish", "total"
+    "Salad", "Steak", "Sandwich", "Chicken", "qorme", "rice", "fish", "total"
 ]
+foods_list = [
+    "Pizza", "Burger", "Pasta", "Sushi", "Kebab", "taco",
+    "Salad", "Steak", "Sandwich", "Chicken", "qorme", "rice", "fish"
+]
+
 class user_manger():
 
     def file(self):
@@ -25,10 +30,11 @@ class user_manger():
     def check_user(self, username, password):
         df = self.file()
         for info in df.itertuples():
-            if info.username != username and info.password != password:
-                self.create_user(username, password)
-                return False
-        return True
+            if info.username == username and info.password == password:
+                return True
+        self.create_user(username, password)
+        return False
+
 
     def user_update(self , username, password , food_code , food_count):
         df = self.file()
@@ -74,7 +80,7 @@ class menu():
     def show_menu(self):
         df = pd.read_csv(pri)
         menu = ""
-        i = 0
+        i = 1
         for head in df.head():
             menu += f"[{i}] {head} : {df[head].loc[0]}$\n"
             i += 1
@@ -84,33 +90,53 @@ class menu():
         df = pd.read_csv(pri)
         return df[food].loc[0]
 
+    def total_ordered_food(self, food_code):
+        df = user_manger().file()
+        dfp = pd.read_csv(pri)
+        total_dict = {}
+        total_income = 0
+        for food in foods_list:
+            total_dict[food] = int(df[food].sum())
+        total_dict = dict(sorted(total_dict.items(), key=lambda item: item[1]))
+        if food_code == 0:
+            total_str = ""
+            for key, value in total_dict.items():
+                total_str += f"{key} : {value} * {int(dfp[key].iloc[0])}$\n"
+                total_income += value * int(dfp[key].iloc[0])
+            return f"{total_str}-----------------\ntotal incoming : {total_income}$"
+        else :
+            food_name = self.convert_to_food(food_code)
+            total_count = total_dict[food_name]
+            price = int(dfp[food_name].iloc[0])
+            return f"{food_name} * {price} : {total_count * price}$"
+
     def convert_to_food(self, food_code):
         match food_code:
-            case 0:
-                return "Pizza"
             case 1:
-                return "Burger"
+                return "Pizza"
             case 2:
-                return "Pasta"
+                return "Burger"
             case 3:
-                return "Sushi"
+                return "Pasta"
             case 4:
-                return "Kebab"
+                return "Sushi"
             case 5:
-                return "taco"
+                return "Kebab"
             case 6:
-                return "Salad"
+                return "taco"
             case 7:
-                return "Steak"
+                return "Salad"
             case 8:
-                return "Sandwich"
+                return "Steak"
             case 9:
-                return "Fried Chicken"
+                return "Sandwich"
             case 10:
-                return "qorme sabzi"
+                return "Chicken"
             case 11:
-                return "rice"
+                return "qorme"
             case 12:
+                return "rice"
+            case 13:
                 return "fish"
             case _:
                 return "invalid food code"
