@@ -29,10 +29,10 @@ class user_manger():
     def check_user(self, username, password):
         df = self.file()
         for info in df.itertuples():
-            if info.username != username and info.password != password:
-                self.create_user(username, password)
-                return False
-        return True
+            if info.username == username and info.password == password:
+                return True
+        self.create_user(username, password)
+        return False
 
     def user_update(self , username, password , food_code , food_count):
         df = self.file()
@@ -73,6 +73,14 @@ class user_manger():
         for key , values in food_history_dict.items():
             food_history_str += f"{key} : {values} * {m.food_to_pricec(key)}\n"
         return food_history_str
+
+    def top_user(self):
+        df = self.file()
+        result = {}
+        for name, total in zip(df["username"], df["total"]):
+            result[name] = total
+        result = {k: v for k, v in sorted(result.items(), key=lambda item: item[1] , reverse=True)}
+        return result
 
 class menu():
     def show_menu(self):
