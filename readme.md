@@ -36,6 +36,9 @@ Shows and returns the user information.
 ### `history_user()`
 Returns a string of the user’s order history.
 
+### `top_user`
+Returns a dict of top customers as price
+
 # 📦 `menu` Class
 Handles menu display and price data.
 
