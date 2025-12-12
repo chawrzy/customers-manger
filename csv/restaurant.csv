@@ -1,1 +1,6 @@
 username,password,Pizza,Burger,Pasta,Sushi,Kebab,taco,Salad,Steak,Sandwich,Chicken,qorme,rice,fish,total
+user1,pass1,2,3,3,2,1,0,1,1,3,1,0,0,0,188
+user2,pass2,1,2,0,1,2,3,0,1,1,3,1,0,2,213
+user3,pass3,1,3,2,1,3,0,0,3,2,3,3,2,2,343
+user4,pass4,1,0,2,0,1,0,0,1,3,0,0,1,0,105
+user5,pass5,0,1,1,1,0,3,2,3,3,1,0,3,3,207
